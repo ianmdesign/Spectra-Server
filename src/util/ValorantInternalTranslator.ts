@@ -36,6 +36,8 @@ export enum WeaponsAndAbilities {
   "TX_Hud_Rifles_DMR" = "Guardian",
   "tx_hud_dmr" = "Guardian",
 
+  // Preserve the previous alias alongside the corrected in-game weapon identifier.
+  "TX_Hud_Rifle_BattleRifle" = "Warden",
   "TX_Hud_Rifles_BattleRifle" = "Warden",
   "TX_Hud_BattleRifle" = "Warden",
 
@@ -230,6 +232,10 @@ export enum Agents {
   "Iris_PC_C" = "Miks",
   "Iris" = "Miks",
   "TX_Killfeed_Iris" = "Miks",
+
+  "Paprika_PC_C" = "Hush",
+  "Paprika" = "Hush",
+  "TX_Killfeed_Paprika" = "Hush",
 }
 
 export enum Maps {
