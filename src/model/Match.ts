@@ -388,7 +388,7 @@ export class Match {
                     Number.isInteger(v.score) && v.score >= 0 && v.score <= 99))))) {
           this.tools.seriesInfo.mapInfo = maps as MapPoolInfo[];
         } else {
-          Log.warn("Rejected invalid live MapBan map pool update");
+          Log.error("Rejected invalid live MapBan map pool update");
           return;
         }
         break;
