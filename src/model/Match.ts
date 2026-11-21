@@ -376,16 +376,31 @@ export class Match {
         // picks and scores from the MapBan session. It must never change map,
         // player stats, round scores, or other live match telemetry.
         const maps = data.data;
-        if (Array.isArray(maps) && maps.length === 3 &&
-            maps.every(map => map && typeof map === "object" &&
+        if (
+          Array.isArray(maps) &&
+          maps.length === 3 &&
+          maps.every(
+            (map) =>
+              map &&
+              typeof map === "object" &&
               ["past", "present", "future", "disabled"].includes(map.type) &&
               (map.type === "disabled" ||
                 (map.type === "present" && typeof map.logo === "string") ||
-                (map.type === "future" && typeof map.map === "string" &&
+                (map.type === "future" &&
+                  typeof map.map === "string" &&
                   typeof map.logo === "string") ||
-                (map.type === "past" && typeof map.map === "string" &&
-                  [map.left, map.right].every(v => v && typeof v.logo === "string" &&
-                    Number.isInteger(v.score) && v.score >= 0 && v.score <= 99))))) {
+                (map.type === "past" &&
+                  typeof map.map === "string" &&
+                  [map.left, map.right].every(
+                    (v) =>
+                      v &&
+                      typeof v.logo === "string" &&
+                      Number.isInteger(v.score) &&
+                      v.score >= 0 &&
+                      v.score <= 99,
+                  ))),
+          )
+        ) {
           this.tools.seriesInfo.mapInfo = maps as MapPoolInfo[];
         } else {
           Log.error("Rejected invalid live MapBan map pool update");
