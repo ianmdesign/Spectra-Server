@@ -17,7 +17,7 @@ import { ReplayLogging } from "../util/ReplayLogging";
 import { Maps } from "../util/ValorantInternalTranslator";
 import { MatchController } from "../controller/MatchController";
 import { DatabaseConnector } from "../connector/databaseConnector";
-import { IPlayerMMRInfo, ToolsData } from "./ToolsData";
+import { IPlayerMMRInfo, ToolsData, MapPoolInfo } from "./ToolsData";
 const Log = logging("Match");
 
 export class Match {
@@ -371,6 +371,28 @@ export class Match {
         this.showAliveKDA = !this.showAliveKDA;
         break;
 
+      case DataTypes.MAP_POOL_UPDATE: {
+        // Authenticated observer event: the active client receives up-to-date
+        // picks and scores from the MapBan session. It must never change map,
+        // player stats, round scores, or other live match telemetry.
+        const maps = data.data;
+        if (Array.isArray(maps) && maps.length === 3 &&
+            maps.every(map => map && typeof map === "object" &&
+              ["past", "present", "future", "disabled"].includes(map.type) &&
+              (map.type === "disabled" ||
+                (map.type === "present" && typeof map.logo === "string") ||
+                (map.type === "future" && typeof map.map === "string" &&
+                  typeof map.logo === "string") ||
+                (map.type === "past" && typeof map.map === "string" &&
+                  [map.left, map.right].every(v => v && typeof v.logo === "string" &&
+                    Number.isInteger(v.score) && v.score >= 0 && v.score <= 99))))) {
+          this.tools.seriesInfo.mapInfo = maps as MapPoolInfo[];
+        } else {
+          Log.warn("Rejected invalid live MapBan map pool update");
+          return;
+        }
+        break;
+      }
       case DataTypes.TOAST:
         this.handleToast(data.data as IToastInfo);
         break;
