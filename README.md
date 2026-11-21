@@ -40,3 +40,18 @@ Inside ```keys``` folder, add your SSL certificate and key. If your SSL is trust
 After that you can start the server by running: ```docker compose up -d```
 # DISCLAIMER
 Spectra-Client isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+
+## Live map pool updates from PCMT MapBan
+
+An authenticated Spectra Client may send `obs_data` of type
+`map_pool_update` containing the three display slots (past, present,
+future or disabled). The Server validates the shapes and modifies only
+`tools.seriesInfo.mapInfo` on the active match, preserving round scores,
+player telemetry, team identity, timeout state and the rest of series
+information. As with existing events, `eventNumber` advances and
+the connected overlay receives the updated match.
+
+This supports the PCMT MapBan session sync in the companion Spectra
+Client fork: whenever a producer enters a map score, the client updates
+the native map pool without reconnecting to Spectra Server. Older
+clients can continue using their original map setup.
