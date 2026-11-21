@@ -63,6 +63,7 @@ export interface IAuthedData {
     | IFormattedScore
     | IFormattedAuxiliary
     | IToastInfo
+    | import("./ToolsData").MapPoolInfo[]
     | boolean
     | string
     | number;
@@ -77,6 +78,7 @@ export interface IFormattedData {
     | IFormattedRoundInfo
     | IFormattedScore
     | IFormattedAbilities
+    | import("./ToolsData").MapPoolInfo[]
     | boolean;
 }
 
@@ -163,6 +165,7 @@ export enum DataTypes {
   SCORE = "score",
   GAME_MODE = "game_mode",
   MAP = "map",
+  MAP_POOL_UPDATE = "map_pool_update",
   OBSERVING = "observing",
   SPIKE_DETONATED = "spike_detonated",
   SPIKE_DEFUSED = "spike_defused",
